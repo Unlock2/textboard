@@ -1,7 +1,6 @@
 package first.common.dao;
 
-import java.awt.List;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,8 +51,8 @@ public class AbstractDAO {
     }
      
     @SuppressWarnings("rawtypes")
-    public ArrayList selectList(String queryId, Object params){
+    public List selectList(String queryId, Object params){
         printQueryId(queryId);
-        return (ArrayList) sqlSession.selectList(queryId,params);
+        return (List) sqlSession.selectList(queryId,params);
     }
 }
