@@ -28,6 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/CHEON_WaveM/Desktop/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="D:/dev/jdk1.8.0_171/jre/lib/ext/ojdbc6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
