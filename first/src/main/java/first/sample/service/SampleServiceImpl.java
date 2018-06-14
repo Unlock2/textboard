@@ -1,5 +1,6 @@
 package first.sample.service;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,13 @@ public class SampleServiceImpl implements SampleService {
 	@Override
 	public Map<String, Object> selectBoardDetail(Map<String, Object> map) throws Exception {
 		sampleDAO.updateHitCnt(map);
-		Map<String, Object> resultMap = sampleDAO.selectBoardDetail(map);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> tempMap = sampleDAO.selectBoardDetail(map);
+		resultMap.put("map", tempMap);
+		
+		List<Map<String, Object>> list = sampleDAO.selectFileList(map);
+		resultMap.put("list", list);
+		
 		return resultMap;
 	}
 

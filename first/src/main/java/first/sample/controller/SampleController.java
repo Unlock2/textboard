@@ -71,7 +71,7 @@ public class SampleController {
          
         Map<String,Object> map = sampleService.selectBoardDetail(commandMap.getMap());
         mv.addObject("map", map);
-         
+        mv.addObject("list", map.get("list"));
         return mv;
     }
     @RequestMapping(value="/sample/openBoardUpdate.do")

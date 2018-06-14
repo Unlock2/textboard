@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="sample">
+
+<!-- XML에서 SQL문 작성시 CDATA 절을 삽입해서 사용하도록 해야한다.
+	그렇지 않은 경우 조건절 기술시 < 기호에 대해 태그로 인식하게 된다. 
+	
+	DUAL은 펑션이나 계산식을 테이블 생성없이 수행해 보기 위한 용도로 사용하는 일종의 'dummy' 테이블이다.
+	어떤 값들이 들어있는 것이 아니라 임시의 공간이라고 생각하면 된다.
+	
+	dual 테이블이 존재하는 이유는 함수에 대한 쓰임을 알고 싶을때 특정 테이블을 생성할 필요없이 dual 테이블을 이용하여
+	함수의 값을 리턴(return) 받을 수 있다. -->
      
        <select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
         <![CDATA[
@@ -17,7 +26,21 @@
 		ORDER BY IDX DESC
         ]]>
     </select>
-	
+    
+    <select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+    <![CDATA[
+        SELECT
+            IDX,
+            ORIGINAL_FILE_NAME,
+            ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
+        FROM
+            TB_FILE
+        WHERE
+            BOARD_IDX = #{IDX}
+            AND DEL_GB = 'N'
+    ]]>
+	</select>
+
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
     <selectKey keyProperty="IDX" resultType="string" order="BEFORE">
         SELECT SEQ_TB_BOARD_IDX.NEXTVAL FROM DUAL
@@ -46,7 +69,14 @@
         )
     ]]>
 	</insert>
-
+<!--  위에 VALUES 부분에 있는 #{} 로 되어 있는 부분에 대한 설명이다.
+	  SQL Injection이라는 놈이며, 간단히 말하자면 검색조건에 DB 질의어를 넣어서 DB NAME 등을 알아내는 해킹방법(?)이다.
+	  
+	  mybatis를 이용해서 SQL 작성시, 파라미터 매핑은 #{} /${} 가 있는데,
+	  #{}는 파라미터 데이터를 "(따옴표)로 묶어주는 방식이고,
+	  ${}는 값이 직접 매핑되는 방식이다.
+	  
+	  #{}는 parameterStatement 방식이라고 생각하면 된다.  -->
 
 	
 	<insert id="insertFile" parameterType="hashmap">
